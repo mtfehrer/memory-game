@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background: rgb(28, 28, 28);
+    box-shadow: 0px 0px 10px black;
+    position: fixed;
+    width: 100vw;
+}
+
+.link {
+    font-size: 2rem;
+    color: white;
+    transition: 0.1s;
+    cursor: pointer;
+}
+
+.link:hover {
+    transform: scale(0.95);
+}

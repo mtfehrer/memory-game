@@ -1,0 +1,27 @@
+.container {
+    width: 20vh;
+    height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: black;
+    color: white;
+    border-radius: 10px;
+    transition: 0.1s;
+    cursor: pointer;
+}
+
+.container:hover {
+    transform: scale(0.95);
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.link {
+    text-decoration: none;
+}
