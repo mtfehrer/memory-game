@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 80vh;
+}
+
+.grid {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(2, 1fr);
+    background: black;
+    gap: 2rem;
+    padding: 2rem;
+    border-radius: 2rem;
+}
+
+.tile {
+    background: white;
+    width: 10vh;
+    height: 10vh;
+    border-radius: 10px;
+    transition: 0.5s;
+}

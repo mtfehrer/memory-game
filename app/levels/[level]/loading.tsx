@@ -1,3 +1,3 @@
 export default function LoadingPage() {
-    return <h1>Loading</h1>;
+    return <div className="header-margin">Loading</div>;
 }
