@@ -3,64 +3,49 @@
 //have several states,
 //waiting for start, show user tiles (in order animation), let user choose, result
 //five rounds for each level
+//have random starting colors
+//add flip animation
 
-import styles from "../styles/Game.module.css";
-import { useState } from "react";
-import Tile from "./Tile";
+import style from "../styles/Game.module.css";
+import useGame from "../hooks/useGame";
+import GameButton from "./GameButton";
 
 type Props = {
     width: number;
     height: number;
     speed: number;
+    level: number;
 };
 
-export default function Game({ width, height, speed }: Props) {
-    const [state, setState] = useState<"wait" | "show" | "choose">("wait");
-    const [currentShowIndex, setCurrentShowIndex] = useState<number>(0);
-    const [showMax, setShowMax] = useState<number>(2);
-    const [showIndexes, setShowIndexes] = useState<number[]>([]);
+export default function Game({ width, height, speed, level }: Props) {
+    const { getTiles, handleButtonClick, state, round } = useGame(
+        width,
+        height
+    );
 
-    let tiles: JSX.Element[] = [];
+    let tiles: JSX.Element[] = getTiles();
+    let roundLabel: string = "" + round;
 
-    //initialize tiles
-    for (let i = 0; i < width; i++) {
-        for (let j = 0; j < height; j++) {
-            if (i * tiles.length + j === showIndexes[currentShowIndex]) {
-                //set it to color
-            }
-            tiles.push(<div className="tile" key={`${i}${j}`}></div>);
-        }
-    }
-
-    function chooseRandomTiles(amount: number): number[] {
-        let result = [];
-
-        for (let i = 0; i < amount; i++) {
-            result.push(Math.floor(Math.random() * tiles.length));
-        }
-
-        return result;
-    }
-
-    function start() {
-        if (state === "wait") {
-            setState("show");
-            setShowIndexes(chooseRandomTiles(2));
-            setInterval(() => {
-                setCurrentShowIndex((current) => current + 1);
-            }, 100);
+    if (round === -1) {
+        if (state === "win") {
+            roundLabel = "You Win";
+        } else if (state === "lose") {
+            roundLabel = "You Lose";
         }
     }
 
     return (
-        <div className={styles.container}>
-            <div className={styles.grid}>
-                <div className={styles.tile}></div>
-                <div className={styles.tile}></div>
-                <div className={styles.tile}></div>
-                <div className={styles.tile}></div>
+        <div className={style.container}>
+            <div className={style.header_container}>
+                <h1 className={style.level_header}>Level {level}</h1>
+
+                <h1>
+                    {/*@ts-ignore*/}
+                    {isNaN(roundLabel) ? roundLabel : `Round ${roundLabel}`}
+                </h1>
             </div>
-            <button onClick={start}>Start</button>
+            <div className={style.grid}>{tiles.map((t) => t)}</div>
+            <GameButton state={state} handleButtonClick={handleButtonClick} />
         </div>
     );
 }

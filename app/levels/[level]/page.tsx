@@ -15,7 +15,11 @@ export default function LevelPage({ params }: any) {
 
     return (
         <div className="header-margin">
-            {access ? <Game /> : "ACCESS DENIED"}
+            {access ? (
+                <Game width={2} height={2} speed={2} level={params.level} />
+            ) : (
+                "ACCESS DENIED"
+            )}
         </div>
     );
 }

@@ -1,0 +1,16 @@
+.container {
+    background: black;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    font-size: 2rem;
+    font-family: "Courier New";
+    cursor: pointer;
+    width: 10rem;
+    height: 4rem;
+    transition: 0.1s;
+}
+
+.container:hover {
+    transform: scale(0.95);
+}

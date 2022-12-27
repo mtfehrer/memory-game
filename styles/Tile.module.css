@@ -1,0 +1,15 @@
+.tile {
+    background: white;
+    width: 10vh;
+    height: 10vh;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+.tile_choose {
+    cursor: pointer;
+}
+
+.tile_choose:hover {
+    opacity: 70%;
+}
