@@ -12,14 +12,17 @@
     justify-content: center;
     align-items: center;
     grid-template-columns: repeat(2, 1fr);
-    background: black;
     gap: 2rem;
     padding: 2rem;
     border-radius: 2rem;
+    background: black;
+    box-shadow: 7px 7px 5px black;
 }
 
 .level_header {
     font-size: 4rem;
+    color: black;
+    text-shadow: 2px 2px 2px black;
 }
 
 .header_container {
@@ -27,4 +30,6 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    color: black;
+    text-shadow: 2px 2px 2px black;
 }

@@ -1,5 +1,6 @@
 .container {
     background: black;
+    box-shadow: 7px 7px 5px black;
     color: white;
     border-radius: 10px;
     border: none;
@@ -13,4 +14,9 @@
 
 .container:hover {
     transform: scale(0.95);
+}
+
+.link {
+    color: white;
+    text-decoration: none;
 }

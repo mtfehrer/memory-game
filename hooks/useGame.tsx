@@ -1,15 +1,15 @@
 import { useState, useRef } from "react";
 import Tile from "../components/Tile";
+import { LevelData } from "../utils/Types";
 
-export default function useGame(w: number, h: number) {
-    const width = useRef<number>(w);
-    const height = useRef<number>(h);
+export default function useGame(levelData: LevelData) {
+    const width = useRef<number>(levelData.width);
+    const height = useRef<number>(levelData.height);
     const [round, setRound] = useState<number>(1);
     const [state, setState] = useState<
         "wait" | "show" | "choose" | "win" | "lose"
     >("wait");
     const [currentShowIndex, setCurrentShowState] = useState<number>(0);
-    const showMax = useRef<number>(2);
     const showTileIndexes = useRef<number[]>([]);
     const intervalKey = useRef<NodeJS.Timer>();
     const [chosenTileIndexes, setChosenTileIndexes] = useState<number[]>([]);
@@ -73,18 +73,17 @@ export default function useGame(w: number, h: number) {
     }
 
     function chooseRandomTiles(amount: number): number[] {
-        let result = [];
+        let result: number[] = [];
 
-        for (let i = 0; i < amount; i++) {
+        while (result.length < amount) {
             result.push(
                 Math.floor(Math.random() * (width.current * height.current))
             );
+            //@ts-ignore
+            result = [...new Set(result)];
         }
 
-        //return result;
-
-        //for debugging purposes
-        return [0, 1];
+        return result;
     }
 
     function handleTileClick(i: number, j: number) {
@@ -102,10 +101,13 @@ export default function useGame(w: number, h: number) {
     function handleButtonClick() {
         if (state === "wait") {
             setState("show");
-            showTileIndexes.current = chooseRandomTiles(2);
+            setChosenTileIndexes([]);
+            showTileIndexes.current = chooseRandomTiles(
+                levelData.roundData[round - 1][1]
+            );
             intervalKey.current = setInterval(() => {
                 setCurrentShowState((current) => {
-                    if (current + 1 > showMax.current) {
+                    if (current + 1 > showTileIndexes.current.length) {
                         clearInterval(intervalKey.current);
                         setState("choose");
                         return 0;
@@ -113,10 +115,12 @@ export default function useGame(w: number, h: number) {
                         return current + 1;
                     }
                 });
-            }, 300);
+            }, levelData.roundData[round - 1][0]);
         } else if (state === "choose") {
             let a = showTileIndexes.current.sort();
             let b = chosenTileIndexes.sort();
+            console.log(a);
+            console.log(b);
             if (a.length === b.length) {
                 for (let i = 0; i < a.length; i++) {
                     if (a[i] !== b[i]) {
@@ -126,7 +130,7 @@ export default function useGame(w: number, h: number) {
                     }
                 }
                 setRound((current) => {
-                    if (current + 1 > 6) {
+                    if (current + 1 > levelData.rounds) {
                         setState("win");
                         return -1;
                     }
@@ -138,8 +142,11 @@ export default function useGame(w: number, h: number) {
             setState("lose");
             setRound(-1);
             return;
-        } else if (state === "win") {
-        } else if (state === "lose") {
+        }
+        if (state === "lose") {
+            //restart level
+            setState("wait");
+            setRound(1);
         }
     }
 

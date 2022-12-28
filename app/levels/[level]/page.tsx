@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import levelData from "../../../data/levelData.json";
+import levelsData from "../../../data/LevelsData.json";
 import Game from "../../../components/Game";
 
 export default function LevelPage({ params }: any) {
@@ -16,7 +16,12 @@ export default function LevelPage({ params }: any) {
     return (
         <div className="header-margin">
             {access ? (
-                <Game width={2} height={2} speed={2} level={params.level} />
+                <Game
+                    levelNumber={params.level}
+                    levelData={
+                        levelsData[params.level as keyof typeof levelsData]
+                    }
+                />
             ) : (
                 "ACCESS DENIED"
             )}
