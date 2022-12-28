@@ -3,6 +3,7 @@
 import styles from "../../styles/Levels.module.css";
 import LevelPreview from "../../components/LevelPreview";
 import levelsData from "../../data/LevelsData.json";
+import initialUserData from "../../data/InitialUserData.json";
 
 import { useEffect } from "react";
 
@@ -12,6 +13,9 @@ export default function Levels() {
     useEffect(() => {
         if (!localStorage.getItem("unlocked-levels")) {
             localStorage.setItem("unlocked-levels", "[1]");
+        }
+        if (!localStorage.getItem("userData")) {
+            localStorage.setItem("userData", JSON.stringify(initialUserData));
         }
     }, []);
 

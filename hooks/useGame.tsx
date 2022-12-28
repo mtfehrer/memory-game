@@ -13,6 +13,7 @@ export default function useGame(levelData: LevelData) {
     const showTileIndexes = useRef<number[]>([]);
     const intervalKey = useRef<NodeJS.Timer>();
     const [chosenTileIndexes, setChosenTileIndexes] = useState<number[]>([]);
+    const [timeInSeconds, setTimeInSeconds] = useState<number>(0);
 
     function getTiles(): JSX.Element[] {
         let tiles: JSX.Element[] = [];
@@ -150,5 +151,12 @@ export default function useGame(levelData: LevelData) {
         }
     }
 
-    return { getTiles, handleButtonClick, state, round };
+    return {
+        getTiles,
+        handleButtonClick,
+        state,
+        round,
+        timeInSeconds,
+        setTimeInSeconds,
+    };
 }
