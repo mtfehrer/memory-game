@@ -3,7 +3,7 @@
 //this will be a column list showing the stats for each level and other arbitrary stuff like time spent
 
 import style from "../../styles/Stats.module.css";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import levelsData from "../../data/LevelsData.json";
 import initialUserData from "../../data/InitialUserData.json";
 import { UserData } from "../../utils/Types";
@@ -11,33 +11,24 @@ import { FaRegStar } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 
 export default function StatsPage() {
-    let userData: UserData = {};
+    const [userData, setUserData] = useState<UserData>(initialUserData);
 
     useEffect(() => {
         if (localStorage.getItem("userData") === null) {
             localStorage.setItem("userData", JSON.stringify(initialUserData));
         } else {
-            userData = JSON.parse(localStorage.getItem("userData") as string);
+            setUserData(JSON.parse(localStorage.getItem("userData") as string));
         }
     }, []);
 
-    function getStars(): JSX.Element[] {
+    function getStars(stars: number): JSX.Element[] {
         let result: JSX.Element[] = [];
 
-        for (let i = 0; i < 5; i++) {
-            if (userData[("" + (i + 1)) as keyof typeof userData]) {
-                if (
-                    i >
-                    (
-                        userData[("" + (i + 1)) as keyof typeof userData] as {
-                            stars: number;
-                        }
-                    ).stars
-                ) {
-                    result.push(<FaRegStar />);
-                }
+        for (let i = 1; i <= 5; i++) {
+            if (i <= stars) {
+                result.push(<FaStar key={i} />);
             } else {
-                result.push(<FaStar />);
+                result.push(<FaRegStar key={i} />);
             }
         }
 
@@ -52,28 +43,23 @@ export default function StatsPage() {
                 <h1>Level {i + 1}</h1>
                 <h2>
                     Time:{" "}
-                    {userData[("" + (i + 1)) as keyof typeof userData] ===
-                    undefined
-                        ? "0:00:00"
-                        : /* @ts-ignore */
-                          userData[("" + (i + 1)) as keyof typeof userData]
-                              .time}
+                    {userData[("" + (i + 1)) as keyof typeof userData].time}
                 </h2>
                 <h2>
                     Tries:{" "}
-                    {userData[("" + (i + 1)) as keyof typeof userData] ===
-                    undefined
-                        ? "0"
-                        : "" /* @ts-ignore */ +
-                          userData[("" + (i + 1)) as keyof typeof userData]
-                              .tries}
+                    {userData[("" + (i + 1)) as keyof typeof userData].tries}
                 </h2>
-                <h2>
-                    Stars:{" "}
-                    {userData[("" + (i + 1)) as keyof typeof userData] ===
-                    undefined
-                        ? "0"
-                        : getStars()}
+                <h2
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    Stars:{"    "}
+                    {getStars(
+                        userData[("" + (i + 1)) as keyof typeof userData].stars
+                    ).map((s) => s)}
                 </h2>
             </li>
         );

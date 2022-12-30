@@ -3,6 +3,7 @@ type LevelData = {
     height: number;
     rounds: number;
     roundData: number[][];
+    fiveStarTime: number;
 };
 
 type UserData = {

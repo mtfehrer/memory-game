@@ -5,6 +5,7 @@
 //add flip animation
 //remove vertical shift after round 1 info gets removed
 //only set time and stars if they're new best
+//start time only when user starts for the first time
 
 import style from "../styles/Game.module.css";
 import useGame from "../hooks/useGame";
@@ -29,7 +30,7 @@ export default function Game({ levelNumber, levelData }: Props) {
 
     useEffect(() => {
         setInterval(() => {
-            setTimeInSeconds((current) => current + 1);
+            setTimeInSeconds((current) => current + 0.5);
         }, 1000);
     }, []);
 
@@ -40,9 +41,15 @@ export default function Game({ levelNumber, levelData }: Props) {
 
         if (state === "win") {
             userData[("" + levelNumber) as keyof UserData].tries += 1;
-            userData[("" + levelNumber) as keyof UserData].time = totalTime;
-            userData[("" + levelNumber) as keyof UserData].stars =
-                getStars(totalTime);
+            if (
+                userData[("" + levelNumber) as keyof UserData].time <
+                parseTime(timeInSeconds)
+            ) {
+                userData[("" + levelNumber) as keyof UserData].time =
+                    parseTime(timeInSeconds);
+                userData[("" + levelNumber) as keyof UserData].stars =
+                    getStars(timeInSeconds);
+            }
             localStorage.setItem("userData", JSON.stringify(userData));
         }
         if (state === "lose") {
@@ -54,8 +61,32 @@ export default function Game({ levelNumber, levelData }: Props) {
     let tiles: JSX.Element[] = getTiles();
     let roundLabel: string = "" + round;
 
-    function getStars(time: string): number {
+    function getStars(userTime: number): number {
+        if (userTime <= levelData.fiveStarTime) {
+            return 5;
+        }
+        if (userTime <= levelData.fiveStarTime - 5) {
+            return 4;
+        }
+        if (userTime <= levelData.fiveStarTime - 10) {
+            return 3;
+        }
+        if (userTime <= levelData.fiveStarTime - 15) {
+            return 2;
+        }
+        if (userTime <= levelData.fiveStarTime - 20) {
+            return 1;
+        }
         return 0;
+    }
+
+    function parseTime(seconds: number): string {
+        let result: string =
+            "" + Math.floor(seconds / 60) + ":" + (seconds % 60);
+        if (result[-2] == ":") {
+            result = "" + Math.floor(seconds / 60) + ":0" + (seconds % 60);
+        }
+        return result;
     }
 
     if (round === -1) {
