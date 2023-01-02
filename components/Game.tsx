@@ -1,12 +1,9 @@
 "use client";
 
-//five rounds for each level
 //have random starting colors
 //add flip animation
-//remove vertical shift after round 1 info gets removed
-//only set time and stars if they're new best
-//start time only when user starts for the first time
 
+import "../styles/globals.css";
 import style from "../styles/Game.module.css";
 import useGame from "../hooks/useGame";
 import GameButton from "./GameButton";
@@ -14,35 +11,27 @@ import { LevelData, UserData } from "../utils/Types";
 import { useEffect } from "react";
 
 type Props = {
-    levelNumber: number;
+    levelNumber: string;
     levelData: LevelData;
 };
 
 export default function Game({ levelNumber, levelData }: Props) {
-    const {
-        getTiles,
-        handleButtonClick,
-        state,
-        round,
-        timeInSeconds,
-        setTimeInSeconds,
-    } = useGame(levelData);
-
-    useEffect(() => {
-        setInterval(() => {
-            setTimeInSeconds((current) => current + 0.5);
-        }, 1000);
-    }, []);
+    const { getTiles, handleButtonClick, state, round, timeInSeconds } =
+        useGame(levelData);
 
     useEffect(() => {
         let userData: UserData = JSON.parse(
             localStorage.getItem("userData") as string
         );
+        let unlockedLevels = JSON.parse(
+            localStorage.getItem("unlocked-levels") as string
+        );
 
         if (state === "win") {
+            //update user data
             userData[("" + levelNumber) as keyof UserData].tries += 1;
             if (
-                userData[("" + levelNumber) as keyof UserData].time <
+                userData[("" + levelNumber) as keyof UserData].time >
                 parseTime(timeInSeconds)
             ) {
                 userData[("" + levelNumber) as keyof UserData].time =
@@ -50,7 +39,15 @@ export default function Game({ levelNumber, levelData }: Props) {
                 userData[("" + levelNumber) as keyof UserData].stars =
                     getStars(timeInSeconds);
             }
+
+            //add next level to unlocked levels
+            unlockedLevels.push(parseInt(levelNumber) + 1);
+
             localStorage.setItem("userData", JSON.stringify(userData));
+            localStorage.setItem(
+                "unlocked-levels",
+                JSON.stringify(unlockedLevels)
+            );
         }
         if (state === "lose") {
             userData[("" + levelNumber) as keyof UserData].tries += 1;
@@ -100,7 +97,7 @@ export default function Game({ levelNumber, levelData }: Props) {
     return (
         <div className={style.container}>
             <div className={style.header_container}>
-                <h1 className={style.level_header}>Level {levelNumber}</h1>
+                <h1 className="header-font">Level {levelNumber}</h1>
                 <h1>
                     {/*@ts-ignore*/}
                     {isNaN(roundLabel) ? roundLabel : `Round ${roundLabel}`}

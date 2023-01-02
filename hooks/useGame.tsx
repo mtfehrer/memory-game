@@ -7,13 +7,16 @@ export default function useGame(levelData: LevelData) {
     const height = useRef<number>(levelData.height);
     const [round, setRound] = useState<number>(1);
     const [state, setState] = useState<
-        "wait" | "show" | "choose" | "win" | "lose"
+        "wait" | "wait for show" | "show" | "choose" | "win" | "lose"
     >("wait");
-    const [currentShowIndex, setCurrentShowState] = useState<number>(0);
+    const [currentShowIndex, setCurrentShowIndex] = useState<number>(0);
     const showTileIndexes = useRef<number[]>([]);
     const intervalKey = useRef<NodeJS.Timer>();
     const [chosenTileIndexes, setChosenTileIndexes] = useState<number[]>([]);
     const [timeInSeconds, setTimeInSeconds] = useState<number>(0);
+    const timeRunning = useRef<boolean>(false);
+    const timeIntervalKey = useRef<NodeJS.Timer>();
+    const [greenTiles, setGreenTiles] = useState<boolean>(false);
 
     function getTiles(): JSX.Element[] {
         let tiles: JSX.Element[] = [];
@@ -25,12 +28,7 @@ export default function useGame(levelData: LevelData) {
                             i={i}
                             j={j}
                             key={`${i}${j}`}
-                            color={
-                                ijToI(i, j) ===
-                                showTileIndexes.current[currentShowIndex]
-                                    ? "red"
-                                    : "white"
-                            }
+                            color={debug(i, j)}
                             onClick={handleTileClick}
                         />
                     );
@@ -43,9 +41,19 @@ export default function useGame(levelData: LevelData) {
                             key={`${i}${j}`}
                             color={
                                 chosenTileIndexes.includes(ijToI(i, j))
-                                    ? "red"
+                                    ? "#404040"
                                     : "white"
                             }
+                            onClick={handleTileClick}
+                        />
+                    );
+                } else if (state === "lose") {
+                    tiles.push(
+                        <Tile
+                            i={i}
+                            j={j}
+                            key={`${i}${j}`}
+                            color="red"
                             onClick={handleTileClick}
                         />
                     );
@@ -55,7 +63,7 @@ export default function useGame(levelData: LevelData) {
                             i={i}
                             j={j}
                             key={`${i}${j}`}
-                            color="white"
+                            color={greenTiles === true ? "green" : "white"}
                             onClick={handleTileClick}
                         />
                     );
@@ -63,6 +71,11 @@ export default function useGame(levelData: LevelData) {
             }
         }
         return tiles;
+    }
+
+    function debug(i: number, j: number): string {
+        console.log(i, j, showTileIndexes.current[currentShowIndex]);
+        return "#404040";
     }
 
     function ijToI(i: number, j: number): number {
@@ -99,53 +112,97 @@ export default function useGame(levelData: LevelData) {
         }
     }
 
+    function startRound() {
+        //clear user and show tiles
+        setChosenTileIndexes([]);
+        showTileIndexes.current = [];
+
+        //start show sequence
+        //setRound function only used to get current round
+        setRound((current) => {
+            showTileIndexes.current = chooseRandomTiles(
+                levelData.roundData[current - 1][1]
+            );
+            return current;
+        });
+
+        intervalKey.current = setInterval(() => {
+            setCurrentShowIndex((current) => {
+                if (current === showTileIndexes.current.length - 1) {
+                    clearInterval(intervalKey.current);
+                    setState("choose");
+                    return 0;
+                } else {
+                    return current + 1;
+                }
+            });
+        }, levelData.roundData[round - 1][0]);
+    }
+
+    function validateTiles() {
+        let a = showTileIndexes.current.sort();
+        let b = chosenTileIndexes.sort();
+        if (a.length === b.length) {
+            for (let i = 0; i < a.length; i++) {
+                if (a[i] !== b[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    function startTimer() {
+        timeIntervalKey.current = setInterval(() => {
+            setTimeInSeconds((current) => current + 1);
+        }, 1000);
+        timeRunning.current = true;
+    }
+
+    function stopTimer() {
+        clearInterval(timeIntervalKey.current);
+        timeRunning.current = false;
+    }
+
     function handleButtonClick() {
         if (state === "wait") {
-            setState("show");
-            setChosenTileIndexes([]);
-            showTileIndexes.current = chooseRandomTiles(
-                levelData.roundData[round - 1][1]
-            );
-            intervalKey.current = setInterval(() => {
-                setCurrentShowState((current) => {
-                    if (current + 1 > showTileIndexes.current.length) {
-                        clearInterval(intervalKey.current);
-                        setState("choose");
-                        return 0;
-                    } else {
-                        return current + 1;
-                    }
-                });
-            }, levelData.roundData[round - 1][0]);
-        } else if (state === "choose") {
-            let a = showTileIndexes.current.sort();
-            let b = chosenTileIndexes.sort();
-            console.log(a);
-            console.log(b);
-            if (a.length === b.length) {
-                for (let i = 0; i < a.length; i++) {
-                    if (a[i] !== b[i]) {
-                        setState("lose");
-                        setRound(-1);
-                        return;
-                    }
+            startTimer();
+            setState("wait for show");
+
+            //wait 0.5 seconds before starting the round
+            setTimeout(() => {
+                setState("show");
+                startRound();
+            }, 500);
+        }
+        if (state === "choose") {
+            let result = validateTiles();
+            if (result) {
+                setGreenTiles(true);
+                if (round === levelData.rounds) {
+                    setState("win");
+                    setRound(-1);
+                    stopTimer();
+                } else {
+                    setRound((current) => current + 1);
+                    setState("wait for show");
+
+                    //wait 0.5 seconds before next round
+                    setTimeout(() => {
+                        setGreenTiles(false);
+                        setTimeout(() => {
+                            setState("show");
+                            startRound();
+                        }, 500);
+                    }, 500);
                 }
-                setRound((current) => {
-                    if (current + 1 > levelData.rounds) {
-                        setState("win");
-                        return -1;
-                    }
-                    return current + 1;
-                });
-                setState("wait");
-                return;
+            } else {
+                setState("lose");
+                setRound(-1);
+                stopTimer();
             }
-            setState("lose");
-            setRound(-1);
-            return;
         }
         if (state === "lose") {
-            //restart level
             setState("wait");
             setRound(1);
         }
@@ -157,6 +214,5 @@ export default function useGame(levelData: LevelData) {
         state,
         round,
         timeInSeconds,
-        setTimeInSeconds,
     };
 }

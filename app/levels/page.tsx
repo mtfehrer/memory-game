@@ -1,5 +1,6 @@
 "use client";
 
+import "../../styles/globals.css";
 import styles from "../../styles/Levels.module.css";
 import LevelPreview from "../../components/LevelPreview";
 import levelsData from "../../data/LevelsData.json";

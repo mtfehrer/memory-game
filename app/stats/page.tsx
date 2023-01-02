@@ -2,6 +2,7 @@
 
 //this will be a column list showing the stats for each level and other arbitrary stuff like time spent
 
+import "../../styles/globals.css";
 import style from "../../styles/Stats.module.css";
 import { useState, useEffect } from "react";
 import levelsData from "../../data/LevelsData.json";
@@ -67,7 +68,7 @@ export default function StatsPage() {
 
     return (
         <div className={style.container}>
-            <h1>Stats</h1>
+            <h1 className="header-font">Stats</h1>
             <div className={style.list_container}>
                 {listElements.map((l) => l)}
             </div>

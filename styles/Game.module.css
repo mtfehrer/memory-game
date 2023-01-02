@@ -19,12 +19,6 @@
     box-shadow: 7px 7px 5px black;
 }
 
-.level_header {
-    font-size: 4rem;
-    color: black;
-    text-shadow: 2px 2px 2px black;
-}
-
 .header_container {
     display: flex;
     justify-content: center;

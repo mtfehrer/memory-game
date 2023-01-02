@@ -19,7 +19,7 @@ export default function GameButton({ state, handleButtonClick }: Props) {
         buttonLabel = "Levels";
     } else if (state === "lose") {
         buttonLabel = "Restart";
-    } else if (state === "show") {
+    } else if (state === "show" || state === "wait for show") {
         buttonLabel = "...";
     }
 
