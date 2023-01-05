@@ -2,6 +2,8 @@
 
 //have random starting colors
 //add flip animation
+//edit access denied page
+//do some more testing with the game such as losing, restarting, seeing how stats change
 
 import "../styles/globals.css";
 import style from "../styles/Game.module.css";
@@ -31,9 +33,12 @@ export default function Game({ levelNumber, levelData }: Props) {
             //update user data
             userData[("" + levelNumber) as keyof UserData].tries += 1;
             if (
-                userData[("" + levelNumber) as keyof UserData].time >
-                parseTime(timeInSeconds)
+                userData[("" + levelNumber) as keyof UserData].seconds === 0 ||
+                userData[("" + levelNumber) as keyof UserData].seconds >
+                    timeInSeconds
             ) {
+                userData[("" + levelNumber) as keyof UserData].seconds =
+                    timeInSeconds;
                 userData[("" + levelNumber) as keyof UserData].time =
                     parseTime(timeInSeconds);
                 userData[("" + levelNumber) as keyof UserData].stars =
@@ -62,16 +67,16 @@ export default function Game({ levelNumber, levelData }: Props) {
         if (userTime <= levelData.fiveStarTime) {
             return 5;
         }
-        if (userTime <= levelData.fiveStarTime - 5) {
+        if (userTime <= levelData.fiveStarTime + 5) {
             return 4;
         }
-        if (userTime <= levelData.fiveStarTime - 10) {
+        if (userTime <= levelData.fiveStarTime + 10) {
             return 3;
         }
-        if (userTime <= levelData.fiveStarTime - 15) {
+        if (userTime <= levelData.fiveStarTime + 15) {
             return 2;
         }
-        if (userTime <= levelData.fiveStarTime - 20) {
+        if (userTime <= levelData.fiveStarTime + 20) {
             return 1;
         }
         return 0;

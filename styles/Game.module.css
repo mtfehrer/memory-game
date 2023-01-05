@@ -4,7 +4,7 @@
     align-items: center;
     flex-direction: column;
     height: 80vh;
-    gap: 5rem;
+    gap: 3rem;
 }
 
 .grid {
@@ -12,9 +12,11 @@
     justify-content: center;
     align-items: center;
     grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
+    gap: 1rem;
     padding: 2rem;
     border-radius: 2rem;
+    width: 40vw;
+    height: 30vw;
     background: black;
     box-shadow: 7px 7px 5px black;
 }

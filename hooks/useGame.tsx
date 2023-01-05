@@ -28,7 +28,12 @@ export default function useGame(levelData: LevelData) {
                             i={i}
                             j={j}
                             key={`${i}${j}`}
-                            color={debug(i, j)}
+                            color={
+                                ijToI(i, j) ===
+                                showTileIndexes.current[currentShowIndex]
+                                    ? "#404040"
+                                    : "white"
+                            }
                             onClick={handleTileClick}
                         />
                     );
@@ -71,11 +76,6 @@ export default function useGame(levelData: LevelData) {
             }
         }
         return tiles;
-    }
-
-    function debug(i: number, j: number): string {
-        console.log(i, j, showTileIndexes.current[currentShowIndex]);
-        return "#404040";
     }
 
     function ijToI(i: number, j: number): number {

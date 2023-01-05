@@ -17,10 +17,12 @@
     width: 80vw;
     background: black;
     color: white;
+    box-shadow: 7px 7px 5px black;
 }
 
 .list_item {
     display: flex;
     justify-content: space-around;
+    align-items: center;
     border: 1px solid white;
 }

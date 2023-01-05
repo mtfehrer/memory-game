@@ -27,7 +27,7 @@ export default function StatsPage() {
 
         for (let i = 1; i <= 5; i++) {
             if (i <= stars) {
-                result.push(<FaStar key={i} />);
+                result.push(<FaStar style={{ color: "gold" }} key={i} />);
             } else {
                 result.push(<FaRegStar key={i} />);
             }

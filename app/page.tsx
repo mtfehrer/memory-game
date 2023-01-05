@@ -1,5 +1,3 @@
-//have user page which shows stats for each level
-//change font sizes and container sizes to fit on all screens for gods sake
 //remove comments at end
 
 import "../styles/globals.css";

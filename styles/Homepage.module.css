@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80vh;
+    height: 85vh;
     width: 100vw;
 }
 
@@ -14,6 +14,7 @@
     border: 50px solid black;
     padding: 3rem;
     border-style: dashed;
+    box-shadow: 7px 7px 5px black;
 }
 
 .inner_container_ {
