@@ -8,67 +8,78 @@
             [400, 2],
             [300, 3]
         ],
-        "fiveStarTime": 10,
+        "fiveStarTime": 9,
         "difficulty": "Easy"
     },
     "2": {
         "width": 3,
         "height": 3,
-        "rounds": 3,
+        "rounds": 4,
         "roundData": [
-            [500, 1],
-            [400, 2],
-            [300, 3]
+            [500, 2],
+            [400, 3],
+            [300, 4],
+            [200, 5]
         ],
-        "fiveStarTime": 10,
+        "fiveStarTime": 15,
         "difficulty": "Easy"
     },
     "3": {
         "width": 4,
         "height": 4,
-        "rounds": 3,
+        "rounds": 5,
         "roundData": [
-            [500, 1],
-            [400, 2],
-            [300, 3]
+            [500, 2],
+            [400, 3],
+            [300, 4],
+            [250, 5],
+            [250, 6]
         ],
-        "fiveStarTime": 10,
+        "fiveStarTime": 23,
         "difficulty": "Medium"
     },
     "4": {
         "width": 5,
         "height": 5,
-        "rounds": 3,
+        "rounds": 5,
         "roundData": [
-            [500, 1],
             [400, 2],
-            [300, 3]
+            [400, 3],
+            [300, 4],
+            [300, 5],
+            [200, 6]
         ],
-        "fiveStarTime": 10,
+        "fiveStarTime": 20,
         "difficulty": "Medium"
     },
     "5": {
         "width": 6,
         "height": 6,
-        "rounds": 3,
+        "rounds": 6,
         "roundData": [
-            [500, 1],
-            [400, 2],
-            [300, 3]
+            [300, 3],
+            [300, 4],
+            [300, 5],
+            [200, 5],
+            [200, 6],
+            [200, 7]
         ],
-        "fiveStarTime": 10,
-        "difficulty": "Medium"
+        "fiveStarTime": 25,
+        "difficulty": "Hard"
     },
     "6": {
         "width": 7,
         "height": 7,
-        "rounds": 3,
+        "rounds": 6,
         "roundData": [
-            [500, 1],
-            [400, 2],
-            [300, 3]
+            [300, 1],
+            [300, 2],
+            [300, 3],
+            [200, 4],
+            [200, 5],
+            [100, 7]
         ],
-        "fiveStarTime": 10,
+        "fiveStarTime": 23,
         "difficulty": "Hard"
     }
 }

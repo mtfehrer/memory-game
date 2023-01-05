@@ -1,3 +1,10 @@
+//ideas:
+//have random starting colors
+//add flip animation
+
+//do some more testing with the game such as losing, restarting, seeing how stats change
+//edit levels
+
 //remove comments at end
 
 import "../styles/globals.css";

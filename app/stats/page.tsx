@@ -1,7 +1,5 @@
 "use client";
 
-//this will be a column list showing the stats for each level and other arbitrary stuff like time spent
-
 import "../../styles/globals.css";
 import style from "../../styles/Stats.module.css";
 import { useState, useEffect } from "react";
@@ -38,12 +36,18 @@ export default function StatsPage() {
 
     let listElements: JSX.Element[] = [];
 
+    function resetStats() {
+        localStorage.setItem("userData", JSON.stringify(initialUserData));
+        localStorage.setItem("unlocked-levels", "[1]");
+        setUserData(initialUserData);
+    }
+
     for (let i = 0; i < Object.keys(levelsData).length; i++) {
         listElements.push(
             <li className={style.list_item} key={i}>
                 <h1>Level {i + 1}</h1>
                 <h2>
-                    Time:{" "}
+                    Best Time:{" "}
                     {userData[("" + (i + 1)) as keyof typeof userData].time}
                 </h2>
                 <h2>
@@ -72,6 +76,9 @@ export default function StatsPage() {
             <div className={style.list_container}>
                 {listElements.map((l) => l)}
             </div>
+            <button onClick={resetStats} className={style.reset_button}>
+                Reset Stats
+            </button>
         </div>
     );
 }

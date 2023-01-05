@@ -1,10 +1,5 @@
 "use client";
 
-//have random starting colors
-//add flip animation
-//edit access denied page
-//do some more testing with the game such as losing, restarting, seeing how stats change
-
 import "../styles/globals.css";
 import style from "../styles/Game.module.css";
 import useGame from "../hooks/useGame";

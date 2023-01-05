@@ -204,6 +204,7 @@ export default function useGame(levelData: LevelData) {
         }
         if (state === "lose") {
             setState("wait");
+            setTimeInSeconds(0);
             setRound(1);
         }
     }
