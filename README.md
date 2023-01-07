@@ -8,3 +8,7 @@ A web application built using next.js
 ![memory-game levels](https://user-images.githubusercontent.com/112262472/211158422-e2a73bdc-1a9e-4c74-9575-a71d99e0411f.PNG)
 
 ![memory-game stats](https://user-images.githubusercontent.com/112262472/211158427-26021bb2-d950-4c4d-9b87-2dbd60621b8b.PNG)
+
+To play: download repository, npm install, npm run dev
+
+Static export currently unsupported with experimental app directory
