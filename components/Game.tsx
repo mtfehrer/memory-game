@@ -62,28 +62,23 @@ export default function Game({ levelNumber, levelData }: Props) {
         if (userTime <= levelData.fiveStarTime) {
             return 5;
         }
-        if (userTime <= levelData.fiveStarTime + 5) {
+        if (userTime <= levelData.fiveStarTime + 2) {
             return 4;
         }
-        if (userTime <= levelData.fiveStarTime + 10) {
+        if (userTime <= levelData.fiveStarTime + 4) {
             return 3;
         }
-        if (userTime <= levelData.fiveStarTime + 15) {
+        if (userTime <= levelData.fiveStarTime + 6) {
             return 2;
         }
-        if (userTime <= levelData.fiveStarTime + 20) {
+        if (userTime <= levelData.fiveStarTime + 8) {
             return 1;
         }
         return 0;
     }
 
     function parseTime(seconds: number): string {
-        let result: string =
-            "" + Math.floor(seconds / 60) + ":" + (seconds % 60);
-        if (result[-2] == ":") {
-            result = "" + Math.floor(seconds / 60) + ":0" + (seconds % 60);
-        }
-        return result;
+        return new Date(seconds * 1000).toISOString().substring(14, 19);
     }
 
     if (round === -1) {

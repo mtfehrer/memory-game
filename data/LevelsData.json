@@ -8,7 +8,7 @@
             [400, 2],
             [300, 3]
         ],
-        "fiveStarTime": 9,
+        "fiveStarTime": 8,
         "difficulty": "Easy"
     },
     "2": {
@@ -35,7 +35,7 @@
             [250, 5],
             [250, 6]
         ],
-        "fiveStarTime": 23,
+        "fiveStarTime": 20,
         "difficulty": "Medium"
     },
     "4": {
@@ -64,7 +64,7 @@
             [200, 6],
             [200, 7]
         ],
-        "fiveStarTime": 25,
+        "fiveStarTime": 27,
         "difficulty": "Hard"
     },
     "6": {
@@ -72,14 +72,14 @@
         "height": 7,
         "rounds": 6,
         "roundData": [
-            [300, 1],
-            [300, 2],
+            [300, 3],
             [300, 3],
             [200, 4],
-            [200, 5],
-            [100, 7]
+            [200, 4],
+            [150, 4],
+            [300, 5]
         ],
-        "fiveStarTime": 23,
+        "fiveStarTime": 22,
         "difficulty": "Hard"
     }
 }
